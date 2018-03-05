@@ -10,6 +10,36 @@ Inserts
 USE [MP3_VERWALTUNG]
 GO
 
+INSERT INTO BENUTZER
+()
+VALUES
+('');
+
+INSERT INTO ADRESSEN
+(Strasse, PLZ, Ort, Land)
+VALUES
+('','','','');
+
+INSERT INTO KAUF_SONGSINBESITZ
+(BID, SID, Kaufdatum)
+VALUES
+('','','');
+
+INSERT INTO BENUTZER_PLAYLIST
+(Playlistname, BID, KID)
+VALUES
+('','','');
+
+INSERT INTO PROBEHOEREN
+(PHID, BID, SID)
+VALUES
+('','','');
+
+INSERT INTO BENUTZERBEWERTUNG
+(KID, SID, Bewertung)
+VALUES
+('','','');
+
 INSERT INTO ALBUM
 (Albumname, Cover)
 VALUES
@@ -53,3 +83,12 @@ VALUES
 ('Jazz'),
 ('Klassisch');
 
+INSERT INTO SONGS
+(Songtitel, Erscheinungsjahr, Interpret, Dauer, Genre, Herkunftsland, Kaufpreis, Ersteller);
+VALUES
+('','','','','','','','');
+
+INSERT INTO SONG_ALBUM
+(SID, AID)
+VALUES
+('','');
