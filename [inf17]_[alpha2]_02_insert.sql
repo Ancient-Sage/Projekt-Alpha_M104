@@ -62,7 +62,7 @@ GO
 INSERT INTO ADRESSEN
 (Strasse, PLZ, Ort, Land)
 VALUES
-('Marienstrasse 99','3462','Unterkappelen',1)
+('Marienstrasse 99','3462','Unterkappelen',(SELECT LID FROM LAENDER WHERE Land = 'Schweiz'))
 ,('Adamsriesenweg 12','7548','Deathington',(SELECT LID FROM LAENDER WHERE Land = 'USA'))
 ,('Beeway 65','5235','Teadrinkin',(SELECT LID FROM LAENDER WHERE Land = 'England'))
 ,('Pizzapelati 74','3920','Lassangnna',(SELECT LID FROM LAENDER WHERE Land = 'Italien'))
@@ -70,6 +70,9 @@ VALUES
 ,('Hotsmokeway 420','420','Weedfield',(SELECT LID FROM LAENDER WHERE Land = 'Jamaika'));
 
 GO
+
+
+--SELECT * FROM ADRESSEN;
 
 INSERT INTO BENUTZER
 (Benutzername, Passwort, Email, Vorname, Nachname, Adresse)
@@ -86,25 +89,29 @@ GO
 INSERT INTO INTERPRETS
 (Kuenstlername)
 VALUES
-('Adolf_Kitler')
+('Abdol_Kitler')
 ,('Lord of the Notes')
 ,('Dread-Knife')
 ,('Trollmaster');
 
 GO
 
+--SELECT * FROM INTERPRETS;
+
 INSERT INTO SONGS
 (Songtitel, Erscheinungsjahr, Interpret, Dauer, Genre, Herkunftsland, Kaufpreis, Ersteller)
 VALUES
-('Ich will dich Jetzt!','1945','Abdol_Kitler','250',(SELECT GID FROM GENRES WHERE Genrename = 'Heavy-Metal'),(SELECT LID FROM LAENDER WHERE Land = 'Deutschland'),'5.1',(SELECT BID FROM BENUTZER WHERE Benutzername = 'Neveragain'))
-,('Mucho Gracias','2001','Lord of the Notes','182',(SELECT GID FROM GENRES WHERE Genrename = 'Klassisch'),(SELECT LID FROM LAENDER WHERE Land = 'Italien'),'3.5',(SELECT BID FROM BENUTZER WHERE Benutzername = 'Neveragain'))
-,('Neun Leben Reichen Nicht!','1946','Abdol_Kitler','125',(SELECT GID FROM GENRES WHERE Genrename = 'Heavy-Metal'),(SELECT LID FROM LAENDER WHERE Land = 'Deutschland'),'4.8',(SELECT BID FROM BENUTZER WHERE Benutzername = 'Neveragain'))
-,('3 Problems but life aint one','2012','Trollmaster','432',(SELECT GID FROM GENRES WHERE Genrename = 'Pop'),(SELECT LID FROM LAENDER WHERE Land = 'USA'),'9.20',(SELECT BID FROM BENUTZER WHERE Benutzername = 'PlayIt'))
-,('No More Resistance','2015','Dread-Knife','220',(SELECT GID FROM GENRES WHERE Genrename = 'Metal'),(SELECT LID FROM LAENDER WHERE Land = 'England'),'2.5',(SELECT BID FROM BENUTZER WHERE Benutzername = 'xX360NoScopeXx'))
-,('Fight back!','2015','Dread-Knife','212',(SELECT GID FROM GENRES WHERE Genrename = 'Metal'),(SELECT LID FROM LAENDER WHERE Land = 'England'),'2.65',(SELECT BID FROM BENUTZER WHERE Benutzername = 'xX360NoScopeXx'))
-,('Lost Will','2016','Dread-Knife','201',(SELECT GID FROM GENRES WHERE Genrename = 'Metal'),(SELECT LID FROM LAENDER WHERE Land = 'England'),'2.35',(SELECT BID FROM BENUTZER WHERE Benutzername = 'IloveSongs'));
+('Ich will dich Jetzt!','1945',(SELECT IID FROM INTERPRETS WHERE Kuenstlername = 'Abdol_Kitler'),'250',(SELECT GID FROM GENRES WHERE Genrename = 'Heavy-Metal'),(SELECT LID FROM LAENDER WHERE Land = 'Deutschland'),'5.1',(SELECT BID FROM BENUTZER WHERE Benutzername = 'Neveragain'))
+,('Mucho Gracias','2001',(SELECT IID FROM INTERPRETS WHERE Kuenstlername = 'Lord of the Notes'),'182',(SELECT GID FROM GENRES WHERE Genrename = 'Klassisch'),(SELECT LID FROM LAENDER WHERE Land = 'Italien'),'3.5',(SELECT BID FROM BENUTZER WHERE Benutzername = 'Neveragain'))
+,('Neun Leben Reichen Nicht!','1946',(SELECT IID FROM INTERPRETS WHERE Kuenstlername = 'Abdol_Kitler'),'125',(SELECT GID FROM GENRES WHERE Genrename = 'Heavy-Metal'),(SELECT LID FROM LAENDER WHERE Land = 'Deutschland'),'4.8',(SELECT BID FROM BENUTZER WHERE Benutzername = 'Neveragain'))
+,('3 Problems but life aint one','2012',(SELECT IID FROM INTERPRETS WHERE Kuenstlername = 'Trollmaster'),'432',(SELECT GID FROM GENRES WHERE Genrename = 'Pop'),(SELECT LID FROM LAENDER WHERE Land = 'USA'),'9.20',(SELECT BID FROM BENUTZER WHERE Benutzername = 'PlayIt'))
+,('No More Resistance','2015',(SELECT IID FROM INTERPRETS WHERE Kuenstlername = 'Dread-Knife'),'220',(SELECT GID FROM GENRES WHERE Genrename = 'Metal'),(SELECT LID FROM LAENDER WHERE Land = 'England'),'2.5',(SELECT BID FROM BENUTZER WHERE Benutzername = 'xX360NoScopeXx'))
+,('Fight back!','2015',(SELECT IID FROM INTERPRETS WHERE Kuenstlername = 'Dread-Knife'),'212',(SELECT GID FROM GENRES WHERE Genrename = 'Metal'),(SELECT LID FROM LAENDER WHERE Land = 'England'),'2.65',(SELECT BID FROM BENUTZER WHERE Benutzername = 'xX360NoScopeXx'))
+,('Lost Will','2016',(SELECT IID FROM INTERPRETS WHERE Kuenstlername = 'Dread-Knife'),'201',(SELECT GID FROM GENRES WHERE Genrename = 'Metal'),(SELECT LID FROM LAENDER WHERE Land = 'England'),'2.35',(SELECT BID FROM BENUTZER WHERE Benutzername = 'IloveSongs'));
 
 GO
+
+--SELECT * FROM SONGS;
 
 INSERT INTO SONG_ALBUM
 (SID, AID)
@@ -117,6 +124,9 @@ VALUES
 
 GO
 
+--SELECT * FROM SONG_ALBUM;
+
+
 INSERT INTO KAUF_SONGBESITZ
 (BID, SID, Kaufdatum)
 VALUES
@@ -127,6 +137,10 @@ VALUES
 ,((SELECT BID FROM BENUTZER WHERE Benutzername = 'xX360NoScopeXx'),(SELECT SID FROM SONGS WHERE Songtitel = 'Neun Leben Reichen Nicht!'),'2016-01-21');
 
 GO
+
+--SELECT * FROM KAUF_SONGBESITZ;
+
+
 
 INSERT INTO BENUTZERBEWERTUNG
 (KID, SID, Bewertung)
@@ -158,7 +172,11 @@ VALUES
 
 GO
 
+--SELECT * FROM PROBEHOEREN;
+
+/*
 SELECT * FROM ALBUM;
 SELECT * FROM BENUTZER;
 SELECT * FROM SONGS;
 SELECT * FROM KAUF_SONGBESITZ;
+*/
