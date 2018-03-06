@@ -104,22 +104,27 @@ CREATE TABLE KAUF_SONGBESITZ (
 --Erstellt die Tabelle für die Bewertung von Songs
 CREATE TABLE BENUTZERBEWERTUNG (
 	KID int NOT NULL --Fremdschlüssel zur Tabelle KAUF_SONGBESITZ
-	,SID int NOT NULL --Fremdschlüssel zur Tabelle SONGS
-	,Bewertung int CHECK (Bewertung < 10) NOT NULL
+	,Bewertung int CHECK (Bewertung <= 10) NOT NULL
 	,CONSTRAINT BW_SIB_FK FOREIGN KEY (KID) -- BW_SIB = BenutzerbeWertung_SongInBesitz
-	REFERENCES KAUF_SONGBESITZ (KID)
-	,CONSTRAINT BW_SONG_FK FOREIGN KEY (SID) 
-	REFERENCES SONGS (SID));
+	REFERENCES KAUF_SONGBESITZ (KID));
 
 --Erstellt die Tabelle für die Benutzer Playlists
-CREATE TABLE BENUTZER_PLAYLIST (
-	BID int NOT NULL --Fremdschlüssel zur Tabelle BENUTZER
-	,KID int NOT NULL --Fremdschlüssel zur Tabelle KAUF_SONGBESITZ
+CREATE TABLE PLAYLISTS (
+	PID int IDENTITY (1,1)
 	,Playlistname varchar(50) NOT NULL
+	,BID int NOT NULL
+	,CONSTRAINT PLAYLISTS_PK PRIMARY KEY (PID)
+	,CONSTRAINT PL_BENUTZER_FK FOREIGN KEY (BID)
+	REFERENCES BENUTZER (BID));
+
+--Erstellt die Tabelle für die verbindung der Songs in Besitz mit den Playlists
+CREATE TABLE BENUTZER_PLAYLIST (
+	KID int NOT NULL --Fremdschlüssel zur Tabelle KAUF_SONGBESITZ
+	,PID int NOT NULL --Fremdschlüssel zur Tabelle PLAYLISTS
 	,CONSTRAINT BP_SIB_FK FOREIGN KEY (KID) -- BP_SIB = BenutzerPlaylist_SongInBesitz
 	REFERENCES KAUF_SONGBESITZ (KID)
-	,CONSTRAINT BP_BENUTZER_FK FOREIGN KEY (BID) 
-	REFERENCES BENUTZER (BID));
+	,CONSTRAINT BP_PLAYLISTS_FK FOREIGN KEY (PID) 
+	REFERENCES PLAYLISTS (PID));
 
 --Erstellt die Tabelle fürs Probehören
 --Damit du die einen Song einmal anhören kannst bevor du ihn kaufst
