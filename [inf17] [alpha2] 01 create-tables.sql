@@ -18,7 +18,7 @@ CREATE TABLE LAENDER (
 --Erstellt die Tabelle für die Genres
 CREATE TABLE GENRES (
 	GID int IDENTITY (1,1)
-	,Genrename text NOT NULL
+	,Genrename varchar(50) NOT NULL
 	,CONSTRAINT GENRES_PK PRIMARY KEY (GID));
 
 --Erstellt die Tabelle für die Alben
@@ -40,7 +40,7 @@ CREATE TABLE ADRESSEN (
 	,Strasse varchar(50) NULL
 	,PLZ varchar(50) NULL
 	,Ort varchar(50) NULL
-	,Land varchar(50) NULL --Fremdschlüssel zur Tabelle LAENDER
+	,Land int NOT NULL --Fremdschlüssel zur Tabelle LAENDER
 	,CONSTRAINT ADRESSEN_PK PRIMARY KEY (AID)
 	,CONSTRAINT BENUTZER_LAND_FK FOREIGN KEY (Land)
 	REFERENCES LAENDER (LID));
@@ -103,8 +103,8 @@ CREATE TABLE KAUF_SONGBESITZ (
 
 --Erstellt die Tabelle für die Bewertung von Songs
 CREATE TABLE BENUTZERBEWERTUNG (
-	KID int NOT NULL
-	,SID int NOT NULL
+	KID int NOT NULL --Fremdschlüssel zur Tabelle KAUF_SONGBESITZ
+	,SID int NOT NULL --Fremdschlüssel zur Tabelle SONGS
 	,Bewertung int CHECK (Bewertung < 10) NOT NULL
 	,CONSTRAINT BW_SIB_FK FOREIGN KEY (KID) -- BW_SIB = BenutzerbeWertung_SongInBesitz
 	REFERENCES KAUF_SONGBESITZ (KID)
@@ -113,9 +113,9 @@ CREATE TABLE BENUTZERBEWERTUNG (
 
 --Erstellt die Tabelle für die Benutzer Playlists
 CREATE TABLE BENUTZER_PLAYLIST (
-	BID int NOT NULL
-	,KID int NOT NULL
-	,Playlistname text NOT NULL
+	BID int NOT NULL --Fremdschlüssel zur Tabelle BENUTZER
+	,KID int NOT NULL --Fremdschlüssel zur Tabelle KAUF_SONGBESITZ
+	,Playlistname varchar(50) NOT NULL
 	,CONSTRAINT BP_SIB_FK FOREIGN KEY (KID) -- BP_SIB = BenutzerPlaylist_SongInBesitz
 	REFERENCES KAUF_SONGBESITZ (KID)
 	,CONSTRAINT BP_BENUTZER_FK FOREIGN KEY (BID) 
@@ -124,8 +124,8 @@ CREATE TABLE BENUTZER_PLAYLIST (
 --Erstellt die Tabelle fürs Probehören
 --Damit du die einen Song einmal anhören kannst bevor du ihn kaufst
 CREATE TABLE PROBEHOEREN (
-	BID int NOT NULL
-	,SID int NOT NULL
+	BID int NOT NULL --Fremdschlüssel zur Tabelle BENUTZER
+	,SID int NOT NULL --Fremdschlüssel zur Tabelle SONGS
 	,CONSTRAINT UC_PROBEHOEREN UNIQUE (BID,SID)
 	,CONSTRAINT PH_BENUTZER_FK FOREIGN KEY (BID) 
 	REFERENCES BENUTZER (BID)
