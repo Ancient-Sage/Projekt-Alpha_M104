@@ -11,6 +11,17 @@ GO
 
 SELECT MAX(Kaufpreis) FROM SONGS;
 
+SELECT MIN(Kaufpreis) FROM SONGS;
+
+SELECT AVG(Kaufpreis) FROM SONGS;
+
+
+
+SELECT Songtitel, Kaufpreis FROM SONGS
+WHERE Kaufpreis = (SELECT MAX(Kaufpreis)FROM SONGS);
+
+
+
 SELECT * FROM SONGS
 ORDER BY Kaufpreis DESC; 
 --SELECT * FROM SONGS

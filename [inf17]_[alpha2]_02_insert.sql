@@ -10,6 +10,8 @@ Inserts
 USE MP3_VERWALTUNG;
 GO
 
+
+--
 INSERT INTO ALBUM
 (Albumname, Cover)
 VALUES
@@ -22,6 +24,8 @@ VALUES
 
 GO
 
+
+--
 INSERT INTO LAENDER
 (Land)
 VALUES
@@ -40,6 +44,8 @@ VALUES
 
 GO
 
+
+--
 INSERT INTO GENRES
 (Genrename)
 VALUES
@@ -59,6 +65,8 @@ VALUES
 
 GO
 
+
+--
 INSERT INTO ADRESSEN
 (Strasse, PLZ, Ort, Land)
 VALUES
@@ -72,8 +80,7 @@ VALUES
 GO
 
 
---SELECT * FROM ADRESSEN;
-
+--
 INSERT INTO BENUTZER
 (Benutzername, Passwort, Email, Vorname, Nachname, Adresse)
 VALUES
@@ -86,6 +93,8 @@ VALUES
 
 GO
 
+
+--
 INSERT INTO INTERPRETS
 (Kuenstlername)
 VALUES
@@ -96,8 +105,8 @@ VALUES
 
 GO
 
---SELECT * FROM INTERPRETS;
 
+--
 INSERT INTO SONGS
 (Songtitel, Erscheinungsjahr, Interpret, Dauer, Genre, Herkunftsland, Kaufpreis, Ersteller)
 VALUES
@@ -111,8 +120,8 @@ VALUES
 
 GO
 
---SELECT * FROM SONGS;
 
+--
 INSERT INTO SONG_ALBUM
 (SID, AID)
 VALUES
@@ -124,9 +133,8 @@ VALUES
 
 GO
 
---SELECT * FROM SONG_ALBUM;
 
-
+--Hier Wird erfasst welchem Benutzer welcher Song gehört und seit wann
 INSERT INTO KAUF_SONGBESITZ
 (BID, SID, Kaufdatum)
 VALUES
@@ -138,26 +146,8 @@ VALUES
 
 GO
 
---SELECT * FROM KAUF_SONGBESITZ;
 
-/*
-IloveSongs
-xX360NoScopeXx
-PlayIt
-AnotherOne
-Neveragain
-The_Godfather
-*/
-/*
-Ich will dich Jetzt!
-Mucho Gracias
-Neun Leben Reichen Nicht!
-3 Problems but life aint one
-No More Resistance
-Fight back!
-Lost Will
-*/
-
+--Hiermit werden die Songbewertungen abgegeben
 INSERT INTO BENUTZERBEWERTUNG
 (KID, Bewertung)
 VALUES
@@ -169,10 +159,8 @@ VALUES
 
 GO
 
---DELETE FROM BENUTZERBEWERTUNG;
---SELECT * FROM BENUTZERBEWERTUNG;
 
-
+--Hier werden neue Playlists erstellt
 INSERT INTO PLAYLISTS
 (Playlistname, BID)
 VALUES
@@ -181,9 +169,7 @@ VALUES
 GO
 
 
-
-
-
+--Hier werden die Song im Besitz des Benutzers in die Playlists eingefügt
 INSERT INTO BENUTZER_PLAYLIST
 (PID, KID)
 VALUES
@@ -193,12 +179,25 @@ VALUES
 
 GO
 
+--Hiermit können Songs aus den Playlists gelöscht werden
+/*
+DELETE FROM BENUTZER_PLAYLIST
+WHERE PID = (SELECT PID FROM PLAYLISTS WHERE Playlistname = '' 
+	AND BID = (SELECT BID FROM BENUTZER WHERE Benutzername = ''))
+AND KID = (SELECT KID FROM KAUF_SONGBESITZ WHERE BID = (SELECT BID FROM BENUTZER WHERE Benutzername = '')
+	AND SID = (SELECT SID FROM SONGS WHERE Songtitel = ''));
+*/
 
 
---DELETE FROM BENUTZER_PLAYLIST;
+--Hiermit können die Namen der Playlists geändert werden
+/*
+UPDATE PLAYLISTS
+SET Playlistname = 'Uberhyperultrafunk'
+WHERE Playlistname = 'Playlist1' AND BID = (SELECT BID FROM BENUTZER WHERE Benutzername = 'The_Godfather')
+*/
 
 
-
+--Hier wird das Probehören erfasst
 INSERT INTO PROBEHOEREN
 ( BID, SID)
 VALUES
@@ -207,9 +206,11 @@ VALUES
 
 GO
 
---SELECT * FROM PROBEHOEREN;
+
 
 /*
+SELECT * FROM PLAYLISTS;
+SELECT * FROM PROBEHOEREN;
 SELECT * FROM ALBUM;
 SELECT * FROM BENUTZER;
 SELECT * FROM SONGS;
