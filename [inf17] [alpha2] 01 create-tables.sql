@@ -64,7 +64,7 @@ CREATE TABLE SONGS (
 	,Songtitel varchar(50) UNIQUE NOT NULL
 	,Erscheinungsjahr smallint NOT NULL--kann mit dem Datentyp "date" nicht nur das jahr eingegeben werden 
 	,Interpret int NOT NULL--Fremdschlüssel zur Tabelle INTERPRETS
-	,Dauer double(5,1) NOT NULL--kann mit dem Datentyp "time" nicht nur in sekunden eingegeben werden
+	,Dauer decimal(5,2) NOT NULL--kann mit dem Datentyp "time" nicht nur in sekunden eingegeben werden
 	,Genre int NOT NULL--Fremdschlüssel zur Tabelle GENRES
 	,Herkunftsland int NOT NULL--Fremdschlüssel zur Tabelle LAENDER
 	,Kaufpreis decimal(4,2) NOT NULL
@@ -75,9 +75,9 @@ CREATE TABLE SONGS (
 	,CONSTRAINT HERKUNFTS_FK FOREIGN KEY (Herkunftsland)
 	REFERENCES LAENDER (LID) ON UPDATE CASCADE
 	,CONSTRAINT ERSTELLER_FK FOREIGN KEY (Ersteller)
-	REFERENCES BENUTZER (BID) ON UPDATE CASCADE
+	REFERENCES BENUTZER (BID)
 	,CONSTRAINT INTERPRET_FK FOREIGN KEY (Interpret)
-	REFERENCES BENUTZER (BID) ON UPDATE CASCADE);
+	REFERENCES INTERPRETS (IID) ON UPDATE CASCADE);
 
 --Erstellt die Tabelle fürs verbinden der Tabellen SONGS und ALBUM 
 --Ein Song kann in mehreren Almen vorkommen und in einem Album kommen mehrere Songs vor
@@ -135,7 +135,7 @@ CREATE TABLE PROBEHOEREN (
 	,SID int NOT NULL --Fremdschlüssel zur Tabelle SONGS
 	,CONSTRAINT UC_PROBEHOEREN UNIQUE (BID,SID)
 	,CONSTRAINT PH_BENUTZER_FK FOREIGN KEY (BID) 
-	REFERENCES BENUTZER (BID) ON UPDATE CASCADE
+	REFERENCES BENUTZER (BID) ON DELETE CASCADE
 	,CONSTRAINT PH_SONG_FK FOREIGN KEY (SID) 
 	REFERENCES SONGS (SID) ON UPDATE CASCADE);
 
