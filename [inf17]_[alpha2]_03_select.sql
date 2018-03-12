@@ -53,7 +53,7 @@ ORDER BY Land;
 
 
 --Abfrage der Songs nach best bewertetsten anzeigen
-SELECT Songtitel, isnull(Bewertung, "noch nicht bewertet") FROM SONGS AS s
+SELECT Songtitel, Bewertung FROM SONGS AS s
 LEFT JOIN (SELECT SID, AVG(Bewertung) AS Bewertung FROM KAUF_SONGBESITZ AS k
 LEFT JOIN BENUTZERBEWERTUNG AS b ON b.KID=k.KID
 GROUP BY SID) AS b ON b.SID=s.SID
@@ -70,19 +70,28 @@ JOIN BENUTZERBEWERTUNG AS w ON w.KID=k.KID
 
 /*Zusätzlich*/
 
+--Playlists mit dazu gehörigen Songs
+SELECT Playlistname, Songtitel FROM PLAYLISTS AS p
+JOIN BENUTZER_PLAYLIST AS bp ON bp.PID=p.PID
+JOIN KAUF_SONGBESITZ AS k ON k.KID=bp.KID
+JOIN SONGS AS s ON k.SID=s.SID
+
+
 --Benutzer samt Adressen anzeigen
 SELECT Benutzername, Email, Vorname, Nachname, Strasse, PLZ, Ort, l.Land FROM BENUTZER
 LEFT JOIN ADRESSEN AS a ON Adresse=AID
 JOIN  LAENDER AS l ON a.Land=l.LID
 
 
-
-
-SELECT Songtitel, Erscheinungsjahr, Kuenstlername, Dauer AS "Dauer in Sek", Genrename AS Genre, Land, Kaufpreis, Ersteller FROM SONGS
+--Alle Songs mit dazu gehörigen JOINs
+SELECT Songtitel, Erscheinungsjahr, Kuenstlername AS Interpret, Dauer AS "Dauer in Sek", Genrename AS Genre, Land, Kaufpreis, Benutzername AS Ersteller, Bewertung FROM SONGS AS s
 LEFT JOIN INTERPRETS ON Interpret=IID
 LEFT JOIN GENRES ON Genre=GID
 LEFT JOIN LAENDER ON Herkunftsland=LID
 LEFT JOIN BENUTZER ON Ersteller=BID
+LEFT JOIN (SELECT SID, AVG(Bewertung) AS Bewertung FROM KAUF_SONGBESITZ AS k
+LEFT JOIN BENUTZERBEWERTUNG AS b ON b.KID=k.KID
+GROUP BY SID) AS b ON b.SID=s.SID;
 
 
 
