@@ -27,7 +27,7 @@ GRANT SELECT ON KAUF_SONGBESITZ TO Moderator;
 --REVOKE Moderator FROM ..., ...;
 
 
-/* Um Systemadministratoren-Recht zu vegeben bitter nutze den Folgenden Befehl der
+/* Um Systemadministratoren-Recht zu vegeben bitte nutze den Folgenden Befehl der
 die Vorbestehende Rolle namens sysadmin benutzt. (Achtung: sysadmin vergibt komplette / allzugängliche Zugangsrechte!)*/
 --GRANT sysadmin TO ..., ...;
 --REVOKE sysadmin FROM ..., ...;
